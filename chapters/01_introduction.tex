@@ -1,0 +1,27 @@
+% !TeX root = ../main.tex
+% Add the above to each chapter to make compiling the PDF easier in some editors.
+
+\chapter{Introduction}\label{chapter:introduction}
+
+Unstructured raw data is the most prominent form of data. Such data can be used for knowledge discovery and pattern recognition \parencite{fu1997data}. Data mining techniques, such as classification and trend analysis, can help discover structures in data so that it can be further utilized for decision-making and reasoning. However, some of these techniques rely on human interaction for prior knowledge incorporation and visual analysis. Hence, their application domain is constrained to human-manageable amounts of data. Due to the exponential growth of data volumes, fully automated procedures have become necessary.
+
+Unsupervised learning methods, such as clustering, can be used to gain insight into the data, thereby revealing its underlying structure \parencite{jain2010data}. They rely on fitting a statistical model with the data in order to retrieve its structural information. In comparison, supervised methods require prior knowledge of the data to fit the model. They are trained on labelled data and used to solve a complex regression problem. As a result, the fitted model's behaviour is defined by the training data and the model cannot be used in a general-purpose setting. This can be problematic when exploring new data for the first time.
+
+An example of such data is an image, which is represented by an array of pixel intensities. A raw image representation lacks context and cannot be used for automatic decision-making. Many reasoning tasks, such as autonomous driving, rely on extracting real-world objects from images. By discovering patterns and structures in images, the different objects in the images can be retrieved, thereby gaining a deeper scene understanding.
+
+\begin{figure}[htb]
+    \centering
+    \includegraphics[width=\textwidth]{figures/teaser.png}
+    \caption{An image from Cityscapes \parencite{cityscapes} and its ground truth segmentation.}
+    \label{fig:teaser}
+\end{figure}
+
+Extracting objects from images, otherwise known as image segmentation, is an active area of research. Image segmentation refers to the partitioning of an image into disjoint regions such that each region corresponds to a real-world object (see \autoref{fig:teaser}). Each object is represented by a set of spatially coherent pixels which share similar features. The task of image segmentation algorithms is two-fold. First, the algorithms attempt to extract informative feature descriptors from the pixels in the image. Afterwards, pixels with similar features are grouped together to represent the different objects in the image. 
+
+Traditional image segmentation algorithms relied on hand-crafted feature descriptors to identify objects in images \parencite{minaee2021image}. However, recent deep learning models have shown great success in this field, surpassing earlier methods in efficiency and accuracy. Their core idea is to extract deep features which encode semantic pixel information. Nevertheless, current deep learning architectures are fitted using large amounts of pixel-wise labelled images, which can be scarce and expensive to obtain. Additionally, the models used are typically trained to solve a regression task. This means that they learn to form latent object representations which are mainly determined by the labelled data used to train them.
+
+In this thesis, we utilize this idea for unsupervised object extraction from images. The main objective is to reuse a pretrained model in the context of transfer learning. First, we use a model that was pretrained to solve a relatively simple task, such as classification. Then, we extract features from the model in order to obtain semantic information about the objects in the image. Finally, similar features are clustered to form coherent groups. The intuition being we can leverage the capabilities of a deep learning model to investigate descriptive features that encode semantic information. Moreover, obtaining image labels for training the model is more feasible and less time-consuming, compared to obtaining pixel-level annotations.
+
+We adopt this and propose the following segmentation pipeline: First, the features of an image are extracted using a pretrained version of the VGG16 model \parencite{simonyan2014very}. Then, we investigate grouping the extracted features with two clustering-based approaches, namely k-means and a superpixel-based variant of fuzzy c-means. The pipeline requires no supervision since the deep learning model is not further fine-tuned and the clustering algorithm does not use labelled data. On top of that, we examine the feature maps of multiple images to explore interesting feature similarities and differences among the images.
+
+The remainder of the thesis is organized as follows: In chapter \ref{chapter:preliminaries_and_related_works}, we give a brief overview of the preliminaries and related works done in this field. Chapter \ref{chapter:clustering_in_feature_space} introduces the pipeline we intend to use for object extraction. In chapter \ref{chapter:experiments_and_results}, we discuss the results obtained from segmentation and analytical experiments conducted on two datasets. Finally, chapter \ref{chapter:conclusion} concludes the thesis and gives our final thoughts.
